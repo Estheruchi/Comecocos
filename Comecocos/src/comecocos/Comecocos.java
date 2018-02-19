@@ -1,5 +1,5 @@
 /*
- Comecocos - Javier, Victor y Esther.
+ PURSUIT NINJA - Javier, Victor y Esther.
  */
 package comecocos;
 

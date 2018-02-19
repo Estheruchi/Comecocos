@@ -6,6 +6,8 @@
 package comecocos;
 
 import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 /**
  *
@@ -20,4 +22,16 @@ public class Controlador extends MouseAdapter {
         vista = new Vista(this);
         modelo = new Modelo(this);
     }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        System.out.println("Tirando...");
+        modelo.lanzarDado();
+        vista.refrescar();
+    }
+
+    public void darImagen(Dado nuevaImagen) {
+        vista.tomaImagen(nuevaImagen);
+    }
+
 }
