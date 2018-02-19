@@ -21,7 +21,6 @@ public class Vista extends JFrame {
     private static String titulo = "Comecocos";
 
     private Controlador control;
-    private GridBagConstraints gbc;
 
     public Vista(Controlador control) {
         this.control = control;
@@ -30,7 +29,7 @@ public class Vista extends JFrame {
     }
 
     public void crearInterfaz() {
-        this.setLayout(new GridBagLayout());
+        this.setLayout(null);
         this.setSize(ANCHO, ALTO);
         this.setLocation(50, 50);
         this.setTitle(titulo);
@@ -39,6 +38,6 @@ public class Vista extends JFrame {
     }
 
     public void crearTablero() {
-        gbc = new GridBagConstraints();
+
     }
 }
