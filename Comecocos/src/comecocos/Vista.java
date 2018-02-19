@@ -17,14 +17,16 @@ import javax.swing.JFrame;
 public class Vista extends JFrame {
 
     private static final int ALTO = 600;
-    private static final int ANCHO = 600;
+    private static final int ANCHO = 900;
     private static String titulo = "Comecocos";
 
     private Controlador control;
+    private FondoImagen fondo;
 
     public Vista(Controlador control) {
         this.control = control;
         crearInterfaz();
+        crearFondo();
         this.setVisible(true);
     }
 
@@ -38,6 +40,14 @@ public class Vista extends JFrame {
     }
 
     public void crearTablero() {
+
+    }
+    
+    public void crearFondo() {
+        fondo = new FondoImagen();
+        this.add(fondo);
+        fondo.setLayout(null);
+        fondo.setBounds(0, 0, 900, 600);
 
     }
 }

@@ -5,10 +5,12 @@
  */
 package comecocos;
 
+import javax.swing.JButton;
+
 /**
  *
  * @author Estheruchi
  */
-public class Ficha {
-
+public class Ficha extends JButton {
+    
 }
