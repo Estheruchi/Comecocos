@@ -136,9 +136,9 @@ public class Modelo {
                     hayChoque();
                 }
 
-                estado[1] = nuevaPosicion;
-                arrayXY = separarCoordenadas(nuevaPosicion);
                 mover(1);
+               // estado[1] = nuevaPosicion;
+                arrayXY = separarCoordenadas(nuevaPosicion);
                 nAzul.setPosicion(Integer.parseInt(arrayXY[0]), Integer.parseInt(arrayXY[1]));
                 break;
 
@@ -148,9 +148,9 @@ public class Modelo {
                     hayChoque();
                 }
                 
-                estado[2] = nuevaPosicion;
-                arrayXY = separarCoordenadas(nuevaPosicion);
                 mover(2);
+               // estado[2] = nuevaPosicion;
+                arrayXY = separarCoordenadas(nuevaPosicion);
                 nRojo.setPosicion(Integer.parseInt(arrayXY[0]), Integer.parseInt(arrayXY[1]));
                 break;
         }
@@ -164,7 +164,8 @@ public class Modelo {
             if (comprobarLimite(n)) {
                 n = 0;
             }
-            estado[personaje] += avance;
+            
+            estado[personaje] = n ;
             avance--;
         }
     }
