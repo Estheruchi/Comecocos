@@ -13,19 +13,32 @@ import javax.swing.JLabel;
  */
 public class Modelo {
 
-    private static String[] posiciones = {"45,0", "260,0", "490,0", "700,0", "700, 155",
-        "700, 305", "700, 452", "45,155", "45,305", "45,452", "260,452", "490,452"};
-    private String[] estado = {"0,0", "0,0", "0,0"}; //castillo-azul-rojo
+    private static final String[] POSICIONES = {"45,0", "260,0", "490,0", "700,0", "700,155",
+        "700,305", "700,452", "490,452", "260,452", "45,452", "45,305", "45,155"};
+    private static final int JUGADOR1 = 1, JUGADOR2 = 2;
+    private static final int CASTILLO = 0;
+
+    private int[] estado; //castillo-azul-rojo
+
     private Controlador control;
     private Dado dado;
-
+    private int turno = 0;
     private Ficha nAzul; //1
     private Ficha nRojo;//2
     private Ficha castillo;//3
+    private int indNuevo;
+    private int avance;
+    private int hasChochado; //0,1,2
+    private boolean haCambiado;
+
 
     public Modelo(Controlador control) {
         this.control = control;
         this.dado = new Dado(this);
+        estado = new int[3];
+        turno = JUGADOR1;
+        hasChochado = -1;
+        haCambiado = false;
         escuchar();
         generarPersonajes();
     }
@@ -35,8 +48,8 @@ public class Modelo {
     }
 
     public void lanzarDado() {
-        int n = (int) Math.floor(Math.random() * (5 - 1 + 1) + 1);
-        dado.setImagen(n);
+        avance = (int) Math.floor(Math.random() * (5 - 1 + 1) + 1);
+        dado.setImagen(avance);
         dado.dibujarDado();
     }
 
@@ -44,22 +57,124 @@ public class Modelo {
         nAzul = new Ficha(this, 1);
         nRojo = new Ficha(this, 2);
         castillo = new Ficha(this, 3);
-        generarPosiciones();
+        estlabecerPosiciones();
     }
 
-    public void generarPosiciones() {
-        //castillo.
-        /* posicion castillo = String[darNumero()];
-            posicion azul = String[darNumero()] -> COMPROBAR
-            posicion rojo = String[darNumero()] -> COMPROBAR
-         */
-        //castillo.setPosicion(300, 100);
-        //nAzul.setPosicion(45, 155);
-        //nRojo.setPosicion(200, 100);
+    public String[] separarCoordenadas(int n) {
+        String[] splitter;
+        splitter = POSICIONES[n].split(",");
+        return splitter;
+
+    }
+
+    public void generarPosicion() {
+        indNuevo = darNumero();
+        System.out.println("GENERADO: " + indNuevo);
+        if (comprobarCoordenadas(indNuevo)) {
+            System.out.println("Encontrado, genero otro");
+            generarPosicion();
+        }
+    }
+
+    public void estlabecerPosiciones() {
+        generarPosicion();
+        int n = indNuevo;
+        String[] posicion = separarCoordenadas(n);
+        estado[0] = n;
+        castillo.setPosicion(Integer.parseInt(posicion[0]), Integer.parseInt(posicion[1]));
+
+        generarPosicion();
+        n = indNuevo;
+        posicion = separarCoordenadas(n);
+        estado[1] = n;
+        nRojo.setPosicion(Integer.parseInt(posicion[0]), Integer.parseInt(posicion[1]));
+
+        generarPosicion();
+        n = indNuevo;
+        posicion = separarCoordenadas(n);
+        estado[2] = n;
+        nAzul.setPosicion(Integer.parseInt(posicion[0]), Integer.parseInt(posicion[1]));
+    }
+
+    public void posicionCastillo() {
+        generarPosicion();
+        int n = indNuevo;
+        String[] posicion = separarCoordenadas(n);
+        estado[0] = n;
+        castillo.setPosicion(Integer.parseInt(posicion[0]), Integer.parseInt(posicion[1]));
+    }
+
+    public void posicionNinjaAzul() {
+        generarPosicion();
+        int n = indNuevo;
+        String [] posicion = separarCoordenadas(n);
+        estado[1] = n;
+        nAzul.setPosicion(Integer.parseInt(posicion[0]), Integer.parseInt(posicion[1]));
+    }
+
+    public void posicionNinjaRojo() {
+        generarPosicion();
+        int n = indNuevo;
+        String [] posicion = separarCoordenadas(n);
+        estado[2] = n;
+        nRojo.setPosicion(Integer.parseInt(posicion[0]), Integer.parseInt(posicion[1]));
+    }
+
+    public boolean comprobarCoordenadas(int indice) {
+        for (int i = 0; i < estado.length; i++) {
+            if (estado[i] == indice) {
+                hasChochado = i;
+                haCambiado = true;
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void cambiarTurno() {
+        if (turno == JUGADOR1) {
+            turno = JUGADOR2;
+        } else {
+            turno = JUGADOR1;
+        }
+    }
+
+    public void desplazar() {
+        int nuevaPosicion;
+        switch (turno) {
+            case JUGADOR1: //nAzul
+                nuevaPosicion = estado[1] + avance;
+                comprobarCoordenadas(nuevaPosicion);
+                break;
+            case JUGADOR2:
+                nuevaPosicion = estado[2] + avance;
+                break;
+        }
+
+    }
+
+    public void avanzarFicha() {
+
+    }
+
+    public void hayChoque() {
+        if (haCambiado) {
+            switch (hasChochado) {
+                case CASTILLO:
+                    //turno=turno --> se repite turno
+                    break;
+                case JUGADOR1:
+                    //come jugador1
+                    break;
+                case JUGADOR2:
+                    //come jugador2
+                    break;
+            }
+        }
     }
 
     public int darNumero() {
-        int n = (int) Math.floor(Math.random() * 13);
+        int n = (int) Math.floor(Math.random() * 11);
         return n;
     }
 

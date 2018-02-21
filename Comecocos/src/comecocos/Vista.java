@@ -19,7 +19,7 @@ public class Vista extends JFrame {
 
     private static final int ALTO = 635;
     private static final int ANCHO = 910;
-    private static String titulo = "PURSUIT NINJA";
+    private static String titulo = "NINJA PURSUIT";
 
     private Controlador control;
     private FondoImagen fondo;
@@ -78,7 +78,7 @@ public class Vista extends JFrame {
         etiquetaJug2.setFont(cl.MyFont(1, 31f));
         etiquetaJug2.setForeground(Color.white);
 
-        etiquetaTitulo = new JLabel("PURSUIT NINJA");
+        etiquetaTitulo = new JLabel("NINJA PURSUIT");
         fondo.add(etiquetaTitulo);
         etiquetaTitulo.setBounds(310, 170, 300, 40);
         etiquetaTitulo.setFont(cl.MyFont(1, 40f));
