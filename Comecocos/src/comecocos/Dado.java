@@ -14,6 +14,8 @@ import javax.swing.JLabel;
 public class Dado extends JLabel {
 
     private static String RUTA = "/imagenes/";
+    private static final int ALTO = 50;
+    private static final int ANCHO = 50;
 
     private String fichero;
     private Modelo modelo;
@@ -24,7 +26,7 @@ public class Dado extends JLabel {
     }
 
     public void crearDado() {
-        this.setBounds(425, 225, 50, 50);
+        this.setBounds(425, 225, ANCHO, ALTO);
         setImagen(0);
         dibujarDado();
         this.setVisible(true);

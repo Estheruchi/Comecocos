@@ -23,7 +23,7 @@ public class Vista extends JFrame {
 
     private Controlador control;
     private FondoImagen fondo;
-    private JLabel etiquetaJug1,etiquetaJug2,etiquetaTitulo,puntosJug1,puntosJug2;
+    private JLabel etiquetaJug1, etiquetaJug2, etiquetaTitulo, puntosJug1, puntosJug2;
 
     public Vista(Controlador control) {
         this.control = control;
@@ -54,7 +54,7 @@ public class Vista extends JFrame {
 
     }
 
-    public void tomaImagen(Dado nuevaImagen) {
+    public void tomaImagen(JLabel nuevaImagen) {
         fondo.add(nuevaImagen);
         this.refrescar();
     }
@@ -62,8 +62,8 @@ public class Vista extends JFrame {
     public void refrescar() {
         this.repaint();
     }
-    
-    public void crearEtiquetas(){
+
+    public void crearEtiquetas() {
         CustomLetra cl = new CustomLetra();
 
         etiquetaJug1 = new JLabel("JUGADOR 1");
@@ -77,26 +77,24 @@ public class Vista extends JFrame {
         etiquetaJug2.setBounds(480, 340, 300, 40);
         etiquetaJug2.setFont(cl.MyFont(1, 31f));
         etiquetaJug2.setForeground(Color.white);
-        
-        etiquetaTitulo =new JLabel("PURSUIT NINJA");
+
+        etiquetaTitulo = new JLabel("PURSUIT NINJA");
         fondo.add(etiquetaTitulo);
         etiquetaTitulo.setBounds(310, 170, 300, 40);
         etiquetaTitulo.setFont(cl.MyFont(1, 40f));
         etiquetaTitulo.setForeground(Color.BLACK);
-        
-        puntosJug1 =new JLabel("0");
+
+        puntosJug1 = new JLabel("0");
         fondo.add(puntosJug1);
         puntosJug1.setBounds(310, 380, 300, 40);
         puntosJug1.setFont(cl.MyFont(1, 45f));
         puntosJug1.setForeground(Color.blue);
-  
-        
-        puntosJug2 =new JLabel("1");
+
+        puntosJug2 = new JLabel("1");
         fondo.add(puntosJug2);
         puntosJug2.setBounds(550, 380, 300, 40);
         puntosJug2.setFont(cl.MyFont(1, 40f));
         puntosJug2.setForeground(Color.blue);
-  
-  
+
     }
 }

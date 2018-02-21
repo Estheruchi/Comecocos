@@ -8,6 +8,7 @@ package comecocos;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import javax.swing.JLabel;
 
 /**
  *
@@ -30,7 +31,7 @@ public class Controlador extends MouseAdapter {
         vista.refrescar();
     }
 
-    public void darImagen(Dado nuevaImagen) {
+    public void darImagen(JLabel nuevaImagen) {
         vista.tomaImagen(nuevaImagen);
     }
 
