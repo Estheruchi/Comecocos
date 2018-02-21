@@ -31,7 +31,6 @@ public class Modelo {
     private int hasChochado; //0,1,2
     private boolean haCambiado;
 
-
     public Modelo(Controlador control) {
         this.control = control;
         this.dado = new Dado(this);
@@ -51,6 +50,8 @@ public class Modelo {
         avance = (int) Math.floor(Math.random() * (5 - 1 + 1) + 1);
         dado.setImagen(avance);
         dado.dibujarDado();
+        desplazar();
+        cambiarTurno();
     }
 
     public void generarPersonajes() {
@@ -77,23 +78,9 @@ public class Modelo {
     }
 
     public void estlabecerPosiciones() {
-        generarPosicion();
-        int n = indNuevo;
-        String[] posicion = separarCoordenadas(n);
-        estado[0] = n;
-        castillo.setPosicion(Integer.parseInt(posicion[0]), Integer.parseInt(posicion[1]));
-
-        generarPosicion();
-        n = indNuevo;
-        posicion = separarCoordenadas(n);
-        estado[1] = n;
-        nRojo.setPosicion(Integer.parseInt(posicion[0]), Integer.parseInt(posicion[1]));
-
-        generarPosicion();
-        n = indNuevo;
-        posicion = separarCoordenadas(n);
-        estado[2] = n;
-        nAzul.setPosicion(Integer.parseInt(posicion[0]), Integer.parseInt(posicion[1]));
+        posicionCastillo();
+        posicionNinjaAzul();
+        posicionNinjaRojo();
     }
 
     public void posicionCastillo() {
@@ -107,7 +94,7 @@ public class Modelo {
     public void posicionNinjaAzul() {
         generarPosicion();
         int n = indNuevo;
-        String [] posicion = separarCoordenadas(n);
+        String[] posicion = separarCoordenadas(n);
         estado[1] = n;
         nAzul.setPosicion(Integer.parseInt(posicion[0]), Integer.parseInt(posicion[1]));
     }
@@ -115,7 +102,7 @@ public class Modelo {
     public void posicionNinjaRojo() {
         generarPosicion();
         int n = indNuevo;
-        String [] posicion = separarCoordenadas(n);
+        String[] posicion = separarCoordenadas(n);
         estado[2] = n;
         nRojo.setPosicion(Integer.parseInt(posicion[0]), Integer.parseInt(posicion[1]));
     }
@@ -141,20 +128,53 @@ public class Modelo {
 
     public void desplazar() {
         int nuevaPosicion;
+        String arrayXY[];
         switch (turno) {
             case JUGADOR1: //nAzul
                 nuevaPosicion = estado[1] + avance;
-                comprobarCoordenadas(nuevaPosicion);
+                if (comprobarCoordenadas(nuevaPosicion)) {
+                    hayChoque();
+                }
+
+                estado[1] = nuevaPosicion;
+                arrayXY = separarCoordenadas(nuevaPosicion);
+                mover(1);
+                nAzul.setPosicion(Integer.parseInt(arrayXY[0]), Integer.parseInt(arrayXY[1]));
                 break;
+
             case JUGADOR2:
                 nuevaPosicion = estado[2] + avance;
+                if (comprobarCoordenadas(nuevaPosicion)) {
+                    hayChoque();
+                }
+                
+                estado[2] = nuevaPosicion;
+                arrayXY = separarCoordenadas(nuevaPosicion);
+                mover(2);
+                nRojo.setPosicion(Integer.parseInt(arrayXY[0]), Integer.parseInt(arrayXY[1]));
                 break;
         }
 
     }
 
-    public void avanzarFicha() {
+    public void mover(int personaje) { //estado(1) ninjaAzul estado(2) ninjaRojo
+        int n = estado[personaje];
+        while (avance != 0) {
+            n++;
+            if (comprobarLimite(n)) {
+                n = 0;
+            }
+            estado[personaje] += avance;
+            avance--;
+        }
+    }
 
+    public boolean comprobarLimite(int n) {
+        if (n >= POSICIONES.length) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public void hayChoque() {
