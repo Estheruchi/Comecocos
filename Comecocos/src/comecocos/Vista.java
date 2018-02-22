@@ -90,11 +90,57 @@ public class Vista extends JFrame {
         puntosJug1.setFont(cl.MyFont(1, 45f));
         puntosJug1.setForeground(Color.blue);
 
-        puntosJug2 = new JLabel("1");
+        puntosJug2 = new JLabel("0");
         fondo.add(puntosJug2);
         puntosJug2.setBounds(550, 380, 300, 40);
         puntosJug2.setFont(cl.MyFont(1, 40f));
         puntosJug2.setForeground(Color.blue);
 
     }
+
+    public void iluminarJugador(int turno) {
+        switch (turno) {
+            case 1:
+                etiquetaJug1.setForeground(Color.red);
+                break;
+            case 2:
+                etiquetaJug2.setForeground(Color.red);
+                break;
+            
+        }
+    }
+    
+    public void resetearJugador(int turno){
+          switch (turno) {
+            case 1:
+                etiquetaJug1.setForeground(Color.white);
+                break;
+            case 2:
+                etiquetaJug2.setForeground(Color.white);
+                break;
+            
+        }
+    }
+
+    public void setPuntosJug1(JLabel puntosJug1) {
+        this.puntosJug1 = puntosJug1;
+    }
+
+    public void setPuntosJug2(JLabel puntosJug2) {
+        this.puntosJug2 = puntosJug2;
+    }
+
+    public void pintarPuntos(int puntos,int jugador) {
+        switch (jugador) {
+            case 1:
+                puntosJug1.setText(""+puntos);
+                break;
+            case 2:
+                puntosJug2.setText(""+puntos);
+                break;
+            
+        }
+    }
+    
+    
 }

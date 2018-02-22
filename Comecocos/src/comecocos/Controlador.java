@@ -35,4 +35,20 @@ public class Controlador extends MouseAdapter {
         vista.tomaImagen(nuevaImagen);
     }
 
+    public void iluminarJugador(int turno) {
+        vista.iluminarJugador(turno);
+    }
+
+    public void resetearJugador(int turno) {
+        vista.resetearJugador(turno);
+    }
+
+    public void pintarPuntos(int puntos,int jugador) {
+        vista.pintarPuntos(puntos,jugador);
+    }
+    
+    public void refrescar(){
+        vista.refrescar();
+    }
+
 }
