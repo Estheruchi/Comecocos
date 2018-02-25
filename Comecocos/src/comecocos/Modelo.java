@@ -20,9 +20,11 @@ public class Modelo {
         "700,305", "700,452", "490,452", "260,452", "45,452", "45,305", "45,155"};
     private static final int JUGADOR1 = 1, JUGADOR2 = 2;
     private static final int CASTILLO = 0;
-    private final static int MAX = 5, MIN = 1;
-
-    private Timer timerFichas;
+    private final static int MAX = 4, MIN = 1;
+    private final static int TIEMPO = 1;
+    //private Timer timerFichaRoja;
+    private Timer timerFichaAzul;
+    private Timer timerFichaRojo;
 
     private int[] estado; //castillo-azul-rojo
 
@@ -36,10 +38,13 @@ public class Modelo {
     private int avance;
     private int puntosJug1 = 0;
     private int puntosJug2 = 0;
-    private int tiempo = 9;
+    
     private int posicionActual, posicionFutura;
     private int posXActual, posYActual;
     private int posXFutura, posYFutura;
+    
+    String[] posicionAct;
+    String[] posicionFut;
 
     public Modelo(Controlador control) {
         this.control = control;
@@ -48,8 +53,8 @@ public class Modelo {
         turno = JUGADOR1;
         escuchar();
         generarPersonajes();
-        crearTimerFichas();
-        timerFichas.stop();
+        //crearTimerFichaRoja();
+        //timerFichaRoja.stop();
 
     }
 
@@ -198,10 +203,10 @@ public class Modelo {
             case JUGADOR1: //nAzul
                 nuevaPosicion = estado[1] + avance;
                 posicionActual = estado[1];
-                System.out.println("1º POSICION: " + posicionActual);
+                System.out.println("1º POSICION AZUL: " + posicionActual);
                 comprobarCoordenadas(nuevaPosicion);
 
-                String[] posicionAct = separarCoordenadas(posicionActual);
+                posicionAct = separarCoordenadas(posicionActual);
                 posXActual = Integer.parseInt(posicionAct[0]);
                 posYActual = Integer.parseInt(posicionAct[1]);
 
@@ -209,29 +214,41 @@ public class Modelo {
                 posAMover = estado[1];
                 posicionFutura = estado[1];
 
-                System.out.println("2º posicion futura: " + posicionFutura);
+                System.out.println("2º posicion futura AZUL: " + posicionFutura);
                 arrayXY = separarCoordenadas(posAMover);
 
-                String[] posicionFut = separarCoordenadas(posicionFutura);
+                posicionFut = separarCoordenadas(posicionFutura);
                 posXFutura = Integer.parseInt(posicionFut[0]);
                 posYFutura = Integer.parseInt(posicionFut[1]);
 
                 //nAzul.setPosicion(Integer.parseInt(arrayXY[0]), Integer.parseInt(arrayXY[1]));
-                timerFichas.start();
+                crearTimerFichaAzul();
+                timerFichaAzul.start();
 
                 break;
 
             case JUGADOR2:
                 nuevaPosicion = estado[2] + avance;
                 posicionActual = estado[2];
-                System.out.println("1º POSICION: " + posicionActual);
+                System.out.println("1º POSICION ROJO: " + posicionActual);
                 comprobarCoordenadas(nuevaPosicion);
+                
+                posicionAct = separarCoordenadas(posicionActual);
+                posXActual = Integer.parseInt(posicionAct[0]);
+                posYActual = Integer.parseInt(posicionAct[1]);
+                
                 mover(2);
                 posAMover = estado[2];
                 posicionFutura = estado[2];
-                System.out.println("2º posicion futura: " + posicionFutura);
+                System.out.println("2º posicion futura ROJO: " + posicionFutura);
                 arrayXY = separarCoordenadas(posAMover);
-                //nRojo.setPosicion(Integer.parseInt(arrayXY[0]), Integer.parseInt(arrayXY[1]));
+                
+                posicionFut = separarCoordenadas(posicionFutura);
+                posXFutura = Integer.parseInt(posicionFut[0]);
+                posYFutura = Integer.parseInt(posicionFut[1]);
+                
+                crearTimerFichaRoja();
+                timerFichaRojo.start();
                 break;
         }
     }
@@ -310,20 +327,20 @@ public class Modelo {
         switch (personaje) {
             case CASTILLO:
                 cambiarTurno();
-                System.out.println("ha chocado con castillo");
+                System.out.println("HAS CHOCADO CON CASTILLO !!!!!!!!!!!!!!!!");
                 generarPosicion();
                 colocarFicha(0);
 
                 break;
             case JUGADOR1:
-                System.out.println("come al jugador 1");
+                System.out.println("JUGADOR 1 COMIDO!!!!!!!!!!!!!");
                 puntosJug2++;
                 control.pintarPuntos(puntosJug2, JUGADOR2);
                 generarPosicion();
                 colocarFicha(1);
                 break;
             case JUGADOR2:
-                System.out.println("come al jugador 2");
+                System.out.println("JUGADOR 2 COMIDO!!!!!!!!!!!!!!!");
                 generarPosicion();
                 puntosJug1++;
                 control.pintarPuntos(puntosJug1, JUGADOR1);
@@ -338,86 +355,189 @@ public class Modelo {
 
     //******************************************************************************************
     //ANIMACION DE MOVIMIENTO DE LAS FICHAS
-    public void crearTimerFichas() {
-        timerFichas = new Timer(tiempo, new ActionListener() {
+    public void crearTimerFichaAzul() {
+        timerFichaAzul = new Timer(TIEMPO, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                animarFicha();
+                animarFichaAzul();
+            }
+        });
+    }
+    
+    public void crearTimerFichaRoja() {
+        timerFichaRojo = new Timer(TIEMPO, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                animarFichaRoja();
             }
         });
     }
 
-    public void animarFicha() {
-        if (posicionActual >= 0 && posicionActual < 3) {
-            moverX(1);
-        } else if (posicionActual >= 3 && posicionActual < 6) {
-            moverY(1);
-        } else if (posicionActual >= 6 && posicionActual < 9) {
-            moverX(2);
-        } else if (posicionActual >= 9 && posicionActual != 0) {   
-            moverY(2);
-        }
+    public void animarFichaAzul() {
         
-        nAzul.setLocation(posXActual, posYActual);
-        control.refrescar();
+        if (posicionActual >= 0 && posicionActual < 3) {
+            movimientoFichaAzul(1);
 
+            if(nAzul.getX() >= 700)
+            {
+                movimientoFichaAzul(2);
+                timerFichaAzul.start();
+            }
+ 
+        } else if (posicionActual >= 3 && posicionActual < 6) {
+            movimientoFichaAzul(2);
+            
+            if(nAzul.getY()>=452)
+            {
+                movimientoFichaAzul(3);
+                timerFichaAzul.start();
+            }
+        } else if (posicionActual >= 6 && posicionActual < 9) {
+            movimientoFichaAzul(3);
+            
+            if(nAzul.getX() == 45)
+            {
+                movimientoFichaAzul(4);
+                timerFichaAzul.start();
+            }
+        } else if (posicionActual >= 9 && posicionActual != 0) {
+            
+            movimientoFichaAzul(4);
+            
+            if(nAzul.getY()==0)
+            {
+                movimientoFichaAzul(1);
+                timerFichaAzul.start();
+            }
+
+            
+        }
+        control.refrescar();
     }
 
- 
-    public void moverX(int direccion) { //1 para la drecha, 2 para la izquierda
+    public void movimientoFichaAzul(int direccion) {
         switch (direccion) {
-            case 1:
-                if(posXActual<=posXFutura){
-                    posXActual+=1;
-                }
-                else if(posXActual==posXFutura && posYActual<=posYFutura){
-                    posYActual+=1;
-                }
-                else if(posXActual == posXFutura && posYActual == posYFutura){
-                    timerFichas.stop();
+            case 1: //esquina superior derecha
+                if (posXActual >= posXFutura) {
+                    posXActual = posXFutura;
+                    timerFichaAzul.stop();
+                } else {
+                    posXActual += 1;
                 }
                 break;
-            case 2:
-                if(posXActual>=posXFutura){
-                    posXActual-=1;
-                }
-                else if(posXActual==posXFutura && posYActual>=posYFutura){
-                    posYActual-=1;
-                }
-                else if(posXActual == posXFutura && posYActual == posYFutura){
-                    timerFichas.stop();
+            case 2: //desde la esquina sup derecha hasta la esquina inf derecha
+                if (posYActual >= posYFutura) {
+                    posicionActual = posicionFutura;
+                    timerFichaAzul.stop();
+                } else {
+                    posYActual += 1;
                 }
                 break;
-        }
+            case 3: //desde la esquina inf derecha hasta la esquina inf izquierda
+                if (posXActual <= posXFutura) {
+                    posicionActual = posicionFutura;
+                    timerFichaAzul.stop();
+                } else {
+                    
+                    posXActual -= 1;
+                }
+                break;
+            case 4: //desde la esquina inf izquierda a la esquina sup izquierda
+                if (posYActual <= posYFutura) {
+                    posicionActual = posicionFutura;
+                    timerFichaAzul.stop();
+                } else {
+                    
+                    posYActual -= 1;
+                }
+                break;
 
+        }
+        nAzul.setLocation(posXActual, posYActual);
     }
     
-    public void moverY(int direccion) { //1 para la drecha, 2 para la izquierda
-        switch (direccion) {
-            case 1:
-                if(posYActual<=posYFutura){
-                    posYActual+=1;
-                }
-                else if(posYActual==posYFutura && posXActual<=posXFutura){
-                    posXActual+=1;
-                }
-                else if(posYActual == posYFutura && posXActual == posXFutura){
-                    timerFichas.stop();
-                }
-                break;
-            case 2:
-                if(posYActual>=posYFutura){
-                    posYActual-=1;
-                }
-                else if(posYActual==posYFutura && posXActual>=posXFutura){
-                    posXActual-=1;
-                }
-                else if(posYActual == posYFutura && posXActual == posXFutura){
-                    timerFichas.stop();
-                }
-                break;
-        }
+    
+    public void animarFichaRoja() {
+        
+        if (posicionActual >= 0 && posicionActual < 3) {
+            movimientoFichaRoja(1);
 
+            if(nRojo.getX() >= 700)
+            {
+                movimientoFichaRoja(2);
+                timerFichaRojo.start();
+            }
+ 
+        } else if (posicionActual >= 3 && posicionActual < 6) {
+            movimientoFichaRoja(2);
+            
+            if(nRojo.getY()>=452)
+            {
+                movimientoFichaRoja(3);
+                timerFichaRojo.start();
+            }
+        } else if (posicionActual >= 6 && posicionActual < 9) {
+            movimientoFichaRoja(3);
+            
+            if(nRojo.getX() == 45)
+            {
+                movimientoFichaRoja(4);
+                timerFichaRojo.start();
+            }
+        } else if (posicionActual >= 9 && posicionActual != 0) {
+            
+            movimientoFichaRoja(4);
+            
+            if(nRojo.getY()==0)
+            {
+                movimientoFichaRoja(1);
+                timerFichaRojo.start();
+            }
+
+            
+        }
+        control.refrescar();
     }
 
+    public void movimientoFichaRoja(int direccion) {
+        switch (direccion) {
+            case 1: //esquina superior derecha
+                if (posXActual >= posXFutura) {
+                    posXActual = posXFutura;
+                    timerFichaRojo.stop();
+                } else {
+                    posXActual += 1;
+                }
+                break;
+            case 2: //desde la esquina sup derecha hasta la esquina inf derecha
+                if (posYActual >= posYFutura) {
+                    posicionActual = posicionFutura;
+                    timerFichaRojo.stop();
+                } else {
+                    posYActual += 1;
+                }
+                break;
+            case 3: //desde la esquina inf derecha hasta la esquina inf izquierda
+                if (posXActual <= posXFutura) {
+                    posicionActual = posicionFutura;
+                    timerFichaRojo.stop();
+                } else {
+                    
+                    posXActual -= 1;
+                }
+                break;
+            case 4: //desde la esquina inf izquierda a la esquina sup izquierda
+                if (posYActual <= posYFutura) {
+                    posicionActual = posicionFutura;
+                    timerFichaRojo.stop();
+                } else {
+                    
+                    posYActual -= 1;
+                }
+                break;
+
+        }
+        nRojo.setLocation(posXActual, posYActual);
+    }
+    
 }
