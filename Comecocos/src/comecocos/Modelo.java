@@ -12,7 +12,7 @@ import javax.swing.Timer;
 
 /**
  *
- * @author Estheruchi
+ * @author Esther, Javier y Victor
  */
 public class Modelo {
 
@@ -373,6 +373,10 @@ public class Modelo {
         });
     }
 
+    
+    /**
+     * Realiza el movimiento de cada ficha según su indice y posicion de X e Y.
+     */
     public void animarFichaAzul() {
         
         if (posicionActual >= 0 && posicionActual < 3) {
@@ -408,12 +412,15 @@ public class Modelo {
             {
                 movimientoFichaAzul(1);
                 timerFichaAzul.start();
-            }
-
-            
+            }   
         }
         control.refrescar();
     }
+    
+    /**
+     * Método que mueve la ficha hacia de derecha, abajo, izquierda y arriba.
+     * @param direccion en que se mueve 
+     */
 
     public void movimientoFichaAzul(int direccion) {
         switch (direccion) {

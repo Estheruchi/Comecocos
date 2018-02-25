@@ -1,6 +1,3 @@
-/*
-
- */
 package comecocos;
 
 import java.net.URL;
@@ -9,7 +6,7 @@ import javax.swing.JLabel;
 
 /**
  *
- * @author Estheruchi
+ * @author Esther, Javier y Victor
  */
 public class Dado extends JLabel {
 

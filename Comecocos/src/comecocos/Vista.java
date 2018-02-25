@@ -1,19 +1,12 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package comecocos;
 
 import java.awt.Color;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 /**
  *
- * @author Estheruchi
+ * @author Esther, Javier y Victor
  */
 public class Vista extends JFrame {
 
@@ -33,6 +26,10 @@ public class Vista extends JFrame {
         this.setVisible(true);
     }
 
+    
+    /**
+     * Creamos las propiedades de la Vista
+     */
     public void crearInterfaz() {
         this.setLayout(null);
         this.setSize(ANCHO, ALTO);
@@ -42,16 +39,14 @@ public class Vista extends JFrame {
         this.getContentPane().setBackground(Color.GRAY);
     }
 
-    public void crearTablero() {
-
-    }
-
+    /**
+     * Insertamos la Imagen de fondo del programa
+     */
     public void crearFondo() {
         fondo = new FondoImagen();
         this.add(fondo);
         fondo.setLayout(null);
         fondo.setBounds(0, 0, 900, 600);
-
     }
 
     public void tomaImagen(JLabel nuevaImagen) {
@@ -63,6 +58,9 @@ public class Vista extends JFrame {
         this.repaint();
     }
 
+    /**
+     * Creamos las etiquetas del programa
+     */
     public void crearEtiquetas() {
         CustomLetra cl = new CustomLetra();
 
@@ -98,6 +96,10 @@ public class Vista extends JFrame {
 
     }
 
+    /**
+     * Iluminamos los nombres de los jugadores según su turno
+     * @param turno 
+     */
     public void iluminarJugador(int turno) {
         switch (turno) {
             case 1:
@@ -105,11 +107,14 @@ public class Vista extends JFrame {
                 break;
             case 2:
                 etiquetaJug2.setForeground(Color.red);
-                break;
-            
+                break;            
         }
     }
     
+    /**
+     * Ponemos los nombres de los jugadores sino están jugando
+     * @param turno 
+     */
     public void resetearJugador(int turno){
           switch (turno) {
             case 1:
@@ -117,8 +122,7 @@ public class Vista extends JFrame {
                 break;
             case 2:
                 etiquetaJug2.setForeground(Color.white);
-                break;
-            
+                break;           
         }
     }
 
@@ -140,7 +144,5 @@ public class Vista extends JFrame {
                 break;
             
         }
-    }
-    
-    
+    }    
 }

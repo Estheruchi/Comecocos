@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package comecocos;
 
 import java.awt.Graphics;
@@ -11,7 +6,7 @@ import javax.swing.JPanel;
 
 /**
  *
- * @author javierflopez
+ * @author Esther, Javier y Victor
  */
 public class FondoImagen extends JPanel {
     @Override
@@ -19,7 +14,7 @@ public class FondoImagen extends JPanel {
         ImageIcon imgFondo = new ImageIcon(getClass().getResource("/Imagenes/fondo.jpg"));
         g.drawImage(imgFondo.getImage(), 0, 0, 900, 600, this);
         setOpaque(false);
-        super.paint(g); // para que pinte el resto de los componentes
+        super.paint(g); 
         super.paintComponent(g);
     }
 }

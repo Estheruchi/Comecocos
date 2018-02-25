@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package comecocos;
 
 import java.net.URL;
@@ -11,7 +6,7 @@ import javax.swing.JLabel;
 
 /**
  *
- * @author Estheruchi
+ * @author Esther, Javier y Victor
  */
 public class Ficha extends JLabel {
 
